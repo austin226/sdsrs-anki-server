@@ -70,20 +70,15 @@ cd $ANKI_SERVER_DIR
 python setup.py egg_info
 
 # Configure server
-DEFAULT_PORT=3001
+source config/env.ini
 printf "${G}Creating config/server-config.ini file.${W}\n"
-printf "${M}Enter server port [Default=${DEFAULT_PORT}]: ${W}"
-read PORT
-if [[ -z "${PORT// }" ]];
-then
-    PORT=$DEFAULT_PORT
-fi
 cd $INITIAL_DIR
 BASE_CONFIG_FILE="config/server-config.dist.ini"
 REAL_CONFIG_FILE="config/server-config.ini"
 rm -f $REAL_CONFIG_FILE
 echo "# This is a generated file." > $REAL_CONFIG_FILE
 cat $BASE_CONFIG_FILE >> $REAL_CONFIG_FILE
+sed -i "s/\$HOST/${HOST}/g" $REAL_CONFIG_FILE
 sed -i "s/\$PORT/${PORT}/g" $REAL_CONFIG_FILE
 
 printf "${G}Setup complete${W}\n"
