@@ -85,3 +85,5 @@ rm -f $REAL_CONFIG_FILE
 echo "# This is a generated file." > $REAL_CONFIG_FILE
 cat $BASE_CONFIG_FILE >> $REAL_CONFIG_FILE
 sed -i "s/\$PORT/${PORT}/g" $REAL_CONFIG_FILE
+
+printf "${G}Setup complete${W}\n"
