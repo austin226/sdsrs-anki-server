@@ -70,7 +70,7 @@ cd $ANKI_SERVER_DIR
 python setup.py egg_info
 
 # Configure server
-DEFAULT_PORT=27701
+DEFAULT_PORT=3001
 printf "${G}Creating config/server-config.ini file.${W}\n"
 printf "${M}Enter server port [Default=${DEFAULT_PORT}]: ${W}"
 read PORT
