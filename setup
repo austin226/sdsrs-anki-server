@@ -1,0 +1,92 @@
+#!/bin/bash
+
+set -e
+
+if [ "$EUID" -ne 0 ]
+then printf "${G}Please run as root${W}\n"
+    exit
+fi
+
+INITIAL_DIR=$(pwd)
+function finish {
+    set +e
+    deactivate
+    cd $INITIAL_DIR
+}
+trap finish EXIT
+
+mkdir -p anki
+cd anki
+
+# Define console colors
+G='\033[1;32m' # Green
+O='\033[0;33m' # Orange
+M='\033[0;35m' # Magenta
+W='\033[0m' # White
+
+# Set up AnkiServer
+printf "${G}Setting up AnkiServer from source${W}\n"
+ANKI_SERVER_DIR="anki-sync-server"
+if [ -d $ANKI_SERVER_DIR ];
+then
+    printf "${O}anki-sync-server already downloaded${W}\n"
+else
+    printf "${G}Cloning https://github.com/dsnopek/$ANKI_SERVER_DIR${W}\n"
+    git clone https://github.com/dsnopek/anki-sync-server
+fi
+
+# Install virtualenv
+printf "${G}Installing virtualenv${W}\n"
+easy_install virtualenv
+
+# Create environment
+V_ENV_NAME="AnkiServer.env"
+printf "${G}Creating virtual environment at $V_ENV_NAME${W}\n"
+virtualenv $V_ENV_NAME
+
+# Enter environment
+printf "${G}Entering $V_ENV_NAME${W}\n"
+. "$V_ENV_NAME/bin/activate"
+
+printf "${G}Installing dependencies${W}\n"
+easy_install webob PasteDeploy PasteScript sqlalchemy simplejson
+
+# Install Anki
+anki --version >/dev/null 2>&1
+if [ $? -eq 0 ];
+then
+    printf "${O}Anki already installed.${W}\n"
+else
+    ANKI_NAME="anki-2.0.45"
+    ANKI_FILENAME="$ANKI_NAME-amd64.tar.bz2"
+    printf "${G}Downloading anki${W}\n"
+    wget "https://apps.ankiweb.net/downloads/current/$ANKI_FILENAME"
+    printf "${G}Installing anki${W}\n"
+    tar xjf $ANKI_FILENAME
+    cd $ANKI_NAME
+    make install
+fi
+
+# Register egg info
+cd $ANKI_SERVER_DIR
+python setup.py egg_info
+
+# Configure server
+DEFAULT_PORT=27701
+printf "${G}Creating config/server-config.ini file.${W}\n"
+printf "${M}Enter server port [Default=${DEFAULT_PORT}]: ${W}"
+read PORT
+if [[ -z "${PORT// }" ]];
+then
+    PORT=$DEFAULT_PORT
+fi
+cd $INITIAL_DIR
+BASE_CONFIG_FILE="config/server-config.dist.ini"
+REAL_CONFIG_FILE="config/server-config.ini"
+rm -f $REAL_CONFIG_FILE
+echo "# This is a generated file." > $REAL_CONFIG_FILE
+cat $BASE_CONFIG_FILE >> $REAL_CONFIG_FILE
+sed -i "s/\$PORT/${PORT}/g" $REAL_CONFIG_FILE
+
+# Exit script
+deactivate
