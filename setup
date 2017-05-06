@@ -9,8 +9,6 @@ fi
 
 INITIAL_DIR=$(pwd)
 function finish {
-    set +e
-    deactivate
     cd $INITIAL_DIR
 }
 trap finish EXIT
@@ -87,6 +85,3 @@ rm -f $REAL_CONFIG_FILE
 echo "# This is a generated file." > $REAL_CONFIG_FILE
 cat $BASE_CONFIG_FILE >> $REAL_CONFIG_FILE
 sed -i "s/\$PORT/${PORT}/g" $REAL_CONFIG_FILE
-
-# Exit script
-deactivate
