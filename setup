@@ -87,4 +87,8 @@ cat $BASE_CONFIG_FILE >> $REAL_CONFIG_FILE
 sed -i "s/\$HOST/${HOST}/g" $REAL_CONFIG_FILE
 sed -i "s/\$PORT/${PORT}/g" $REAL_CONFIG_FILE
 
+echo "anki/anki-sync-server/ankiserverctl.py debug config/server-config.ini" > run-server-debug
+echo "anki/anki-sync-server/ankiserverctl.py start config/server-config.ini" > run-server
+chmod +x run-server run-server-debug
+
 printf "${G}Setup complete${W}\n"
