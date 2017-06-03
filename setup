@@ -72,6 +72,21 @@ python setup.py egg_info
 # Configure server
 printf "${G}Creating config/server-config.ini file.${W}\n"
 cd $INITIAL_DIR
+
+# Set up env.ini
+if [ ! -f config/env.ini ]
+then
+    echo "config/env.ini not found. Creating now."
+    echo "Enter IP address: "
+    read INPUT_HOST
+    echo "Enter Port: "
+    read INPUT_PORT
+
+    echo "export HOST=${INPUT_HOST}" > config/env.ini
+    echo "export PORT=${INPUT_PORT}" >> config/env.ini
+else
+    echo "Using values in config/env.ini"
+fi
 source config/env.ini
 BASE_CONFIG_FILE="config/server-config.dist.ini"
 REAL_CONFIG_FILE="config/server-config.ini"
