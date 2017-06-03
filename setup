@@ -47,7 +47,9 @@ printf "${G}Entering $V_ENV_NAME${W}\n"
 . "$V_ENV_NAME/bin/activate"
 
 printf "${G}Installing dependencies${W}\n"
+set +e
 easy_install webob PasteDeploy PasteScript sqlalchemy simplejson
+set -e
 
 # Install Anki
 anki --version >/dev/null 2>&1
