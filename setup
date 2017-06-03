@@ -55,7 +55,7 @@ set +e
 anki --version >/dev/null 2>&1
 ANKI_STATUS=$?
 set -e
-if [ ANKI_STATUS -eq 0 ];
+if [ $ANKI_STATUS -eq 0 ];
 then
     printf "${O}Anki already installed.${W}\n"
 else
