@@ -24,7 +24,7 @@ W='\033[0m' # White
 
 # Set up AnkiServer
 printf "${G}Setting up AnkiServer from source${W}\n"
-ANKI_SERVER_DIR="anki-sync-server"
+ANKI_SERVER_DIR="$(pwd)/anki-sync-server"
 if [ -d $ANKI_SERVER_DIR ];
 then
     printf "${O}anki-sync-server already downloaded${W}\n"
