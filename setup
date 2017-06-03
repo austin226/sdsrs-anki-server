@@ -78,9 +78,9 @@ printf "${G}Creating config/server-config.ini file.${W}\n"
 cd $INITIAL_DIR
 
 # Set up env.ini
-echo "${O}Enter IP address: ${W}"
+printf "${O}Enter IP address: ${W}"
 read HOST
-echo "${O}Enter Port: ${W}"
+printf "${O}Enter Port: ${W}"
 read PORT
 
 BASE_CONFIG_FILE="config/server-config.dist.ini"
