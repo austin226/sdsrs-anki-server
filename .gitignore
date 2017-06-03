@@ -1,3 +1,4 @@
 /anki/
 /config/server-config.ini
-/config/env.ini
+run-server
+run-server-debug
