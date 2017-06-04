@@ -1,5 +1,2 @@
 /anki/
 /config/server-config.ini
-run-server
-run-server-debug
-stop-server

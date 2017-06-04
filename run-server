@@ -1,0 +1,1 @@
+anki/anki-sync-server/ankiserverctl.py start config/server-config.ini
