@@ -96,4 +96,6 @@ echo "anki/anki-sync-server/ankiserverctl.py start config/server-config.ini" > r
 echo "anki/anki-sync-server/ankiserverctl.py stop" > stop-server
 chmod +x run-server run-server-debug stop-server
 
+mkdir -p collections
+
 printf "${G}Setup complete${W}\n"
