@@ -20,6 +20,6 @@ Follow the [AnkiServer instructions](https://github.com/dsnopek/anki-sync-server
 ```bash
 $ ./run-server
 $ # or
-# ./run-server-debug
+$ ./run-server-debug
 $ ./stop-server
 ```
